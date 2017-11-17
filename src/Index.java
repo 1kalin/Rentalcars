@@ -44,30 +44,39 @@ public class Index extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub	
-		System.out.println("doPost()");
+		System.out.println("Doing a post HttpServletRequest request.");
 		
 		Rentalcars rc = new Rentalcars();
+		System.out.println("Created a RentalCars class.");
+		System.out.println("Calling the main method:");
 		rc.main(null);
 		String test1 = rc.getTest1();
 		String test2 = rc.getTest2();
 		String test3 = rc.getTest3();
 		String test4 = rc.getTest4();
+		System.out.println("Got all the output data in variables.");
 
-		response.getWriter().println("//_____________________________________________");
-		response.getWriter().println("// PART 1.1");
+		response.getWriter().println("//____________");
+		response.getWriter().println("//__PART 1.1__");
+		response.getWriter().println("//____________");
 		response.getWriter().println(test1);
 		
-		response.getWriter().println("//_____________________________________________");
-		response.getWriter().println("// PART 1.2");
+		response.getWriter().println("//____________");
+		response.getWriter().println("//__PART 1.2__");
+		response.getWriter().println("//____________");
 		response.getWriter().println(test2);
 
-		response.getWriter().println("//_____________________________________________");
-		response.getWriter().println("// PART 1.3");
+		response.getWriter().println("//____________");
+		response.getWriter().println("//__PART 1.3__");
+		response.getWriter().println("//____________");
 		response.getWriter().println(test3);
 
-		response.getWriter().println("//_____________________________________________");
-		response.getWriter().println("// PART 1.4");
+		response.getWriter().println("//____________");
+		response.getWriter().println("//__PART 1.4__");
+		response.getWriter().println("//____________");
 		response.getWriter().println(test4);
+		
+		System.out.println("Displayed variables on HttpServletResponse response.");
 	}
 
 }

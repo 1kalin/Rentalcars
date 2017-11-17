@@ -1,173 +1,354 @@
 import static org.junit.Assert.*;
+import java.util.HashMap;
 import org.junit.Test;
 
 public class RentalcarsTest {
 	@Test
 	public void test1() {
+		// create a new class, run main method, get first task output in a var
 		Rentalcars rc = new Rentalcars();
 		rc.main(null);
 		String result = rc.getTest1();
-		String expected = new String(
-				"1. {ChevroletSpark} - {120.16}\n"
-				+ "2. {Kia Picanto} - {136.57}\n"
-				+ "3. {Vauxhall Corsa} - {139.93}\n"
-				+ "4. {Citroen C4} - {146.7}\n"
-				+ "5. {Ford Focus} - {157.85}\n"
-				+ "6. {Ford Focus} - {157.85}\n"
-				+ "7. {VW Golf} - {188.97}\n"
-				+ "8. {VW Golf} - {209.97}\n"
-				+ "9. {VW Golf} - {209.97}\n"
-				+ "10. {Skoda Fabia} - {219.71}\n"
-				+ "11. {Skoda Fabia} - {219.71}\n"
-				+ "12. {Chevrolet Cruze} - {229.45}\n"
-				+ "13. {Audi A1} - {234.76}\n"
-				+ "14. {Skoda Octavia} - {236.24}\n"
-				+ "15. {VW Golf Estate} - {239.56}\n"
-				+ "16. {Skoda Fabia} - {240.71}\n"
-				+ "17. {Kia Ceed Estate} - {311.03}\n"
-				+ "18. {Kia Ceed Estate} - {311.03}\n"
-				+ "19. {Vauxhall Zafira} - {319.63}\n"
-				+ "20. {Vauxhall Zafira} - {323.63}\n"
-				+ "21. {Ford Mondeo} - {339.31}\n"
-				+ "22. {Nissan Juke} - {356.28}\n"
-				+ "23. {Ford Mondeo} - {365.31}\n"
-				+ "24. {Ford Mondeo} - {365.31}\n"
-				+ "25. {Nissan Juke} - {463.56}\n"
-				+ "26. {VW Passat Estate} - {469.37}\n"
-				+ "27. {VW Jetta} - {508.96}\n"
-				+ "28. {VW Jetta} - {508.96}\n"
-				+ "29. {Ford Galaxy} - {706.89}\n"
-				+ "30. {VW Sharan} - {753.75}\n"
-				+ "31. {VW Sharan} - {789.75}\n");
 
-		//Check that two objects are equal
-	    assertEquals(expected, result);	
-	}
+		// 0) test if result is not null
+		assertTrue(result!=null);
+
+		// 1) test for formatting: {} - {}
+		// split the results into an array for each line
+		String[] resultLines = result.split("\\n");
+		for (String line: resultLines)
+			assertTrue(line.matches("\\d+\\.\\s\\"
+					 				+ "{[[a-zA-Z]*[\\d]*\\s*]*\\}\\s\\-\\s\\"	// vehicle name
+					 				+ "{\\d*\\.\\d*\\}"));						// price
+		
+		// 2) test if each vehicle name neither price are null
+		// or not empty string and do some additional testing
+		double currentPrice = 0;
+		double previousPrice = 0;
+		for (String line: resultLines)
+		{
+			// split twice to get the values
+			String[] firstSplit = line.split("\\{");
+			
+			String[] secondSplit1 = firstSplit[1].split("\\}");
+			String vehicleName = secondSplit1[0];
+			// check if there is a string
+			assertTrue(vehicleName!=null);
+			// check if that string is not empty
+			assertTrue(!vehicleName.isEmpty());
+
+		    String[] secondSplit2 = firstSplit[2].split("\\}");
+		    String price = secondSplit2[0];
+			// check if there is a string
+			assertTrue(price!=null);
+			// check if that string is not empty
+			assertTrue(!price.isEmpty());
+			// check if that string is a number
+			assertTrue(price.matches("[[\\d]*[\\.]*]*"));
+			
+			// 3) test that every next number of price is larger
+			currentPrice = Double.parseDouble(price);
+			assertTrue(currentPrice >= previousPrice);
+			//System.out.println("currentPrice:"+currentPrice+" previousPrice:" +previousPrice);
+			previousPrice = currentPrice;
+		}//for
+		
+	}//test1
+	
+	
 	
 	@Test
 	public void test2() {
-	Rentalcars rc2 = new Rentalcars();
-	String result = new String();
-	result = rc2.getTest2();
-	String expected = new String(
-			"1. {CDMR} - {Compact} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "2. {FVAR} - {Full size} - {Passenger Van} - {Automatic} - {Petrol} - {AC}\n"
-			+ "3. {IWMR} - {Intermediate} - {Estate} - {Manual} - {Petrol} - {AC}\n"
-			+ "4. {CWMR} - {Compact} - {Estate} - {Manual} - {Petrol} - {AC}\n"
-			+ "5. {IDAR} - {Intermediate} - {5 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "6. {CCAR} - {Compact} - {4 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "7. {SDMR} - {Standard} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "8. {IDMR} - {Intermediate} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "9. {ECMR} - {Economy} - {4 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "10. {MBMN} - {Mini} - {2 doors} - {Manual} - {Petrol} - {no AC}\n"
-			+ "11. {ECMR} - {Economy} - {4 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "12. {CCMR} - {Compact} - {4 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "13. {CDMR} - {Compact} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "14. {CWMR} - {Compact} - {Estate} - {Manual} - {Petrol} - {AC}\n"
-			+ "15. {IDMR} - {Intermediate} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "16. {CDAR} - {Compact} - {5 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "17. {CXMR} - {Compact} - {Special} - {Manual} - {Petrol} - {AC}\n"
-			+ "18. {IVMR} - {Intermediate} - {Passenger Van} - {Manual} - {Petrol} - {AC}\n"
-			+ "19. {FVMR} - {Full size} - {Passenger Van} - {Manual} - {Petrol} - {AC}\n"
-			+ "20. {CDAR} - {Compact} - {5 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "21. {CXMR} - {Compact} - {Special} - {Manual} - {Petrol} - {AC}\n"
-			+ "22. {IVMR} - {Intermediate} - {Passenger Van} - {Manual} - {Petrol} - {AC}\n"
-			+ "23. {FVMR} - {Full size} - {Passenger Van} - {Manual} - {Petrol} - {AC}\n"
-			+ "24. {IDAR} - {Intermediate} - {5 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "25. {CCAR} - {Compact} - {4 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "26. {SDMR} - {Standard} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "27. {CDMR} - {Compact} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "28. {CXMR} - {Compact} - {Special} - {Manual} - {Petrol} - {AC}\n"
-			+ "29. {SDMR} - {Standard} - {5 doors} - {Manual} - {Petrol} - {AC}\n"
-			+ "30. {CDAR} - {Compact} - {5 doors} - {Automatic} - {Petrol} - {AC}\n"
-			+ "31. {CWMR} - {Compact} - {Estate} - {Manual} - {Petrol} - {AC}\n");
+		// some hash tables for testing letters
+		// This is the first letter mapping to value
+		HashMap<String, String> carTypeTable = new HashMap<String, String>();
+		carTypeTable.put("M", "Mini");
+		carTypeTable.put("E", "Economy");
+		carTypeTable.put("C", "Compact");
+		carTypeTable.put("I", "Intermediate");
+		carTypeTable.put("S", "Standard");
+        carTypeTable.put("F", "Full size");
+        carTypeTable.put("P", "Premium");
+        carTypeTable.put("L", "Luxury");
+        carTypeTable.put("X", "Special");
+        
+    	// This is the second letter mapping to value
+    	HashMap<String, String> doorsCarTypeTable = new HashMap<String, String>();	
+    	doorsCarTypeTable.put("B", "2 doors");
+    	doorsCarTypeTable.put("C", "4 doors");
+    	doorsCarTypeTable.put("D", "5 doors");
+    	doorsCarTypeTable.put("W", "Estate");
+    	doorsCarTypeTable.put("T", "Convertible");
+    	doorsCarTypeTable.put("F", "SUV");
+    	doorsCarTypeTable.put("P", "Pick up");
+    	doorsCarTypeTable.put("V", "Passenger Van");
+    	doorsCarTypeTable.put("X", "Special");
+        
+    	// This is the third letter mapping to value
+    	HashMap<String, String> transmissionTable = new HashMap<String, String>();
+    	transmissionTable.put("M", "Manual");
+    	transmissionTable.put("A", "Automatic");
 
-	//Check that two objects are equal
-    assertEquals(expected, result);	
-}	
+    	// This is the fourth letter mapping to value
+    	HashMap<String, String> airConditioerTable = new HashMap<String, String>();
+    	airConditioerTable.put("N", "no AC");
+    	airConditioerTable.put("R", "AC");
+
+		// create a new class, run main method, get first task output in a var
+		Rentalcars rc = new Rentalcars();
+		rc.main(null);
+		String result = rc.getTest2();
+
+		// 0) test if result is not null
+		assertTrue(result!=null);
+		
+		// 1) test for formatting: {} - {} - {} - {} - {} - {} - {}
+		// split the results into an array for each line
+		String[] resultLines = result.split("\\n");
+		for (String line: resultLines)
+			assertTrue(line.matches("\\d+\\.\\s\\"
+									+ "{[[a-zA-Z]*[\\d]*\\s*]*\\}\\s\\-\\s\\"		// vehicle name
+									+ "{[A-Z][A-Z][A-Z][A-Z]\\}\\s\\-\\s\\"			// sipp
+									+ "{[[a-zA-Z]*[\\s]*]*\\}\\s\\-\\s\\"			// car type
+									+ "{[[\\d]*[a-zA-Z]*[\\s]*]*\\}\\s\\-\\s\\"		// door car type
+									+ "{[a-zA-Z]*\\}\\s\\-\\s\\"					// transmission
+									+ "{[a-zA-Z]*\\}\\s\\-\\s\\"					// fuel
+									+ "{[[a-zA-Z]*[\\s]*]*\\}"));					// ac
+		
+		// 2) test if each element is not null
+		// or is not an empty string
+		// and some additional testing
+		double currentPrice = 0;
+		double previousPrice = 0;
+		for (String line: resultLines)
+		{
+			// split twice to get the values
+			String[] firstSplit = line.split("\\{");
+			
+			String[] secondSplit1 = firstSplit[1].split("\\}");
+			String vehicleName = secondSplit1[0];
+			// check if there is a string
+			assertTrue(vehicleName!=null);
+			// check if that string is not empty
+			assertTrue(!vehicleName.isEmpty());
+
+		    String[] secondSplit2 = firstSplit[2].split("\\}");
+		    String sipp = secondSplit2[0];
+			// check if there is a string
+			assertTrue(sipp!=null);
+			// check if that string is not empty
+			assertTrue(!sipp.isEmpty());
+			
+		    String[] secondSplit3 = firstSplit[3].split("\\}");
+		    String carType = secondSplit3[0];
+			// check if there is a string
+			assertTrue(carType!=null);
+			// check if that string is not empty
+			assertTrue(!carType.isEmpty());
+			
+		    String[] secondSplit4 = firstSplit[4].split("\\}");
+		    String carDoorType = secondSplit4[0];
+			// check if there is a string
+			assertTrue(carDoorType!=null);
+			// check if that string is not empty
+			assertTrue(!carDoorType.isEmpty());
+			
+		    String[] secondSplit5 = firstSplit[5].split("\\}");
+		    String transmission = secondSplit5[0];
+			// check if there is a string
+			assertTrue(transmission!=null);
+			// check if that string is not empty
+			assertTrue(!transmission.isEmpty());
+			
+		    String[] secondSplit6 = firstSplit[6].split("\\}");
+		    String fuel = secondSplit6[0];
+			// check if there is a string
+			assertTrue(fuel!=null);
+			// check if that string is not empty
+			assertTrue(!fuel.isEmpty());
+			
+		    String[] secondSplit7 = firstSplit[7].split("\\}");
+		    String ac = secondSplit7[0];
+			// check if there is a string
+			assertTrue(ac!=null);
+			// check if that string is not empty
+			assertTrue(!ac.isEmpty());
+			
+			
+			// 3) check if the SIPP value exists and is correct
+			char carTypeChar = sipp.charAt(0);
+			String carTypeKey = carTypeChar + "";
+			assertTrue(carTypeTable.keySet().contains(carTypeKey));
+			String carTypeTest = carTypeTable.get(carTypeKey);
+			assertEquals(carTypeTest, carType);			
+			
+			char carDoorTypeChar = sipp.charAt(1);	
+			String carDoorTypeKey = carDoorTypeChar + "";
+			assertTrue(doorsCarTypeTable.keySet().contains(carDoorTypeKey));
+			String doorsCarTypeTest = doorsCarTypeTable.get(carDoorTypeKey);
+			assertEquals(doorsCarTypeTest, carDoorType);		
+	
+			char transmissionChar = sipp.charAt(2);
+			String transmissionKey = transmissionChar + "";
+			assertTrue(transmissionTable.keySet().contains(transmissionKey));
+			String transmissionTest = transmissionTable.get(transmissionKey);
+			assertEquals(transmissionTest, transmission);		
+
+			char acChar = sipp.charAt(3);
+			String acKey = acChar + "";
+			assertTrue(airConditioerTable.keySet().contains(acKey));
+			String acTest = airConditioerTable.get(acKey);
+			assertEquals(acTest, ac);		
+
+		}//for
+
+	}//test2
+	
+	
 	
 	@Test
 	public void test3() {
-	Rentalcars rc3 = new Rentalcars();
-	String result = new String();
-	result = rc3.getTest3();
-	String expected = new String(
-			"1. {Ford Focus} - {Compact} - {Hertz} - {8.9}\n"
-			+ "2. {Ford Galaxy} - {Full size} - {Hertz} - {8.9}\n"
-			+ "3. {VW Passat Estate} - {Intermediate} - {Hertz} - {8.9}\n"
-			+ "4. {Kia Ceed Estate} - {Compact} - {Hertz} - {8.9}\n"
-			+ "5. {VW Jetta} - {Intermediate} - {Hertz} - {8.9}\n"
-			+ "6. {Nissan Juke} - {Compact} - {Hertz} - {8.9}\n"
-			+ "7. {Ford Mondeo} - {Standard} - {Hertz} - {8.9}\n"
-			+ "8. {Skoda Octavia} - {Intermediate} - {Hertz} - {8.9}\n"
-			+ "9. {Vauxhall Corsa} - {Economy} - {Hertz} - {8.9}\n"
-			+ "10. {Kia Picanto} - {Mini} - {Hertz} - {8.9}\n"
-			+ "11. {ChevroletSpark} - {Economy} - {Sixt} - {8.2}\n"
-			+ "12. {Audi A1} - {Compact} - {Sixt} - {8.2}\n"
-			+ "13. {Citroen C4} - {Compact} - {Sixt} - {8.2}\n"
-			+ "14. {VW Golf Estate} - {Compact} - {Sixt} - {8.2}\n"
-			+ "15. {Chevrolet Cruze} - {Intermediate} - {Sixt} - {8.2}\n"
-			+ "16. {Skoda Fabia} - {Compact} - {Sixt} - {8.2}\n"
-			+ "17. {VW Golf} - {Compact} - {Sixt} - {8.2}\n"
-			+ "18. {Vauxhall Zafira} - {Intermediate} - {Sixt} - {8.2}\n"
-			+ "19. {VW Sharan} - {Full size} - {Sixt} - {8.2}\n"
-			+ "20. {Skoda Fabia} - {Compact} - {Europcar} - {8}\n"
-			+ "21. {VW Golf} - {Compact} - {Europcar} - {8}\n"
-			+ "22. {Vauxhall Zafira} - {Intermediate} - {Europcar} - {8}\n"
-			+ "23. {VW Sharan} - {Full size} - {Europcar} - {8}\n"
-			+ "24. {VW Jetta} - {Intermediate} - {Europcar} - {8}\n"
-			+ "25. {Nissan Juke} - {Compact} - {Europcar} - {8}\n"
-			+ "26. {Ford Mondeo} - {Standard} - {Europcar} - {8}\n"
-			+ "27. {Ford Focus} - {Compact} - {Alamo} - {7.8}\n"
-			+ "28. {VW Golf} - {Compact} - {Alamo} - {7.8}\n"
-			+ "29. {Ford Mondeo} - {Standard} - {Alamo} - {7.8}\n"
-			+ "30. {Skoda Fabia} - {Compact} - {Alamo} - {7.8}\n"
-			+ "31. {Kia Ceed Estate} - {Compact} - {Alamo} - {7.8}\n");
+		// create a new class, run main method, get first task output in a var
+		Rentalcars rc = new Rentalcars();
+		rc.main(null);
+		String result = rc.getTest3();
 
-	//Check that two objects are equal
-    assertEquals(expected, result);	
-	}	
+		// 0) test if result is not null
+		assertTrue(result!=null);
+		
+		// 1) test for formatting: {} - {} - {} - {}
+		// split the results into an array for each line
+		String[] resultLines = result.split("\\n");
+		for (String line: resultLines)
+			assertTrue(line.matches("\\d+\\.\\s\\"
+									+ "{[[a-zA-Z]*[\\d]*\\s*]*\\}\\s\\-\\s\\"		// vehicle name
+									+ "{[[a-zA-Z]*[\\s]*]*\\}\\s\\-\\s\\"			// car type
+									+ "{[a-zA-Z]*\\}\\s\\-\\s\\"					// supplier
+									+ "{[[\\d]*[\\.]*]*\\}"));						// rating
+
+		// 2) test if each element is not null
+		// or not empty string and do some additional testing
+		double currentRating = 0;
+		double previousRating = Integer.MAX_VALUE;
+		for (String line: resultLines)
+		{
+			// split twice to get the values
+			String[] firstSplit = line.split("\\{");
+			
+			String[] secondSplit1 = firstSplit[1].split("\\}");
+			String vehicleName = secondSplit1[0];
+			// check if there is a string
+			assertTrue(vehicleName!=null);
+			// check if that string is not empty
+			assertTrue(!vehicleName.isEmpty());
+
+			String[] secondSplit2 = firstSplit[2].split("\\}");
+			String carType = secondSplit2[0];
+			// check if there is a string
+			assertTrue(carType!=null);
+			// check if that string is not empty
+			assertTrue(!carType.isEmpty());
+			
+			String[] secondSplit3 = firstSplit[3].split("\\}");
+			String supplier = secondSplit3[0];
+			// check if there is a string
+			assertTrue(supplier!=null);
+			// check if that string is not empty
+			assertTrue(!supplier.isEmpty());
+			
+		    String[] secondSplit4 = firstSplit[4].split("\\}");
+		    String rating = secondSplit4[0];
+			// check if there is a string
+			assertTrue(rating!=null);
+			// check if that string is not empty
+			assertTrue(!rating.isEmpty());
+			// check if that string is a number
+			assertTrue(rating.matches("[[\\d]*[\\.]*]*"));
+			System.out.println("currentRating:"+rating);
+
+			// 3) test that every next number of rating is smaller
+			currentRating = Double.parseDouble(rating);
+			assertTrue(currentRating <= previousRating);
+			previousRating = currentRating;
+		}//for
+	
+	}//test3
 	
 	@Test
 	public void test4() {
-	Rentalcars rc4 = new Rentalcars();
-	String result = new String();
-	result = rc4.getTest4();
-	String expected = new String(
-			"1. {Ford Galaxy} - {7.0} - {8.9} - {15.9}\n"
-			+ "2. {VW Jetta} - {7.0} - {8.9} - {15.9}\n"
-			+ "3. {Nissan Juke} - {7.0} - {8.9} - {15.9}\n"
-			+ "4. {Skoda Fabia} - {7.0} - {8.2} - {15.2}\n"
-			+ "5. {Skoda Fabia} - {7.0} - {8} - {15.0}\n"
-			+ "6. {VW Jetta} - {7.0} - {8} - {15.0}\n"
-			+ "7. {Nissan Juke} - {7.0} - {8} - {15.0}\n"
-			+ "8. {Skoda Fabia} - {7.0} - {7.8} - {14.8}\n"
-			+ "9. {Ford Focus} - {3.0} - {8.9} - {11.9}\n"
-			+ "10. {VW Passat Estate} - {3.0} - {8.9} - {11.9}\n"
-			+ "11. {Kia Ceed Estate} - {3.0} - {8.9} - {11.9}\n"
-			+ "12. {Ford Mondeo} - {3.0} - {8.9} - {11.9}\n"
-			+ "13. {Skoda Octavia} - {3.0} - {8.9} - {11.9}\n"
-			+ "14. {Vauxhall Corsa} - {3.0} - {8.9} - {11.9}\n"
-			+ "15. {ChevroletSpark} - {3.0} - {8.2} - {11.2}\n"
-			+ "16. {Audi A1} - {3.0} - {8.2} - {11.2}\n"
-			+ "17. {Citroen C4} - {3.0} - {8.2} - {11.2}\n"
-			+ "18. {VW Golf Estate} - {3.0} - {8.2} - {11.2}\n"
-			+ "19. {Chevrolet Cruze} - {3.0} - {8.2} - {11.2}\n"
-			+ "20. {VW Golf} - {3.0} - {8.2} - {11.2}\n"
-			+ "21. {Vauxhall Zafira} - {3.0} - {8.2} - {11.2}\n"
-			+ "22. {VW Sharan} - {3.0} - {8.2} - {11.2}\n"
-			+ "23. {VW Golf} - {3.0} - {8} - {11.0}\n"
-			+ "24. {Vauxhall Zafira} - {3.0} - {8} - {11.0}\n"
-			+ "25. {VW Sharan} - {3.0} - {8} - {11.0}\n"
-			+ "26. {Ford Mondeo} - {3.0} - {8} - {11.0}\n"
-			+ "27. {Ford Focus} - {3.0} - {7.8} - {10.8}\n"
-			+ "28. {VW Golf} - {3.0} - {7.8} - {10.8}\n"
-			+ "29. {Ford Mondeo} - {3.0} - {7.8} - {10.8}\n"
-			+ "30. {Kia Ceed Estate} - {3.0} - {7.8} - {10.8}\n"
-			+ "31. {Kia Picanto} - {1.0} - {8.9} - {9.9}\n");
+		// create a new class, run main method, get first task output in a var
+		Rentalcars rc = new Rentalcars();
+		rc.main(null);
+		String result = rc.getTest4();
 
-	//Check that two objects are equal
-    assertEquals(expected, result);	
-	}	
+		// 0) test if result is not null
+		assertTrue(result!=null);
+		
+		// 1) test for formatting: {} - {} - {} - {} 
+		// split the results into an array for each line
+		String[] resultLines = result.split("\\n");
+		for (String line: resultLines)
+			assertTrue(line.matches("\\d+\\.\\s\\"
+									+ "{[[a-zA-Z]*[\\d]*\\s*]*\\}\\s\\-\\s\\"		// vehicle name
+									+ "{[[\\d]*[\\.]*]*\\}\\s\\-\\s\\"				// breakdown score
+									+ "{[[\\d]*[\\.]*]*\\}\\s\\-\\s\\"				// rating
+									+ "{[[\\d]*[\\.]*]*\\}"));						// sum of scores
+		
 
+		// 2) test if each value is not null
+		// or not empty string and do some additional testing
+		double currentSumOfScores = 0;
+		double previousSumOfScores = Integer.MAX_VALUE;
+		for (String line: resultLines)
+		{
+			// split twice to get the values
+			String[] firstSplit = line.split("\\{");
+			
+			String[] secondSplit1 = firstSplit[1].split("\\}");
+			String vehicleName = secondSplit1[0];
+			// check if there is a string
+			assertTrue(vehicleName!=null);
+			// check if that string is not empty
+			assertTrue(!vehicleName.isEmpty());
+	
+			String[] secondSplit2 = firstSplit[2].split("\\}");
+			String breakdownScore = secondSplit2[0];
+			// check if there is a string
+			assertTrue(breakdownScore!=null);
+			// check if that string is not empty
+			assertTrue(!breakdownScore.isEmpty());			
+			// check if that string is a number
+			assertTrue(breakdownScore.matches("[[\\d]*[\\.]*]*"));			
+			
+			String[] secondSplit3 = firstSplit[3].split("\\}");
+			String rating = secondSplit3[0];
+			// check if there is a string
+			assertTrue(rating!=null);
+			// check if that string is not empty
+			assertTrue(!rating.isEmpty());			
+			// check if that string is a number
+			assertTrue(rating.matches("[[\\d]*[\\.]*]*"));					
+
+		    String[] secondSplit4 = firstSplit[4].split("\\}");
+		    String sumOfScores = secondSplit4[0];
+			// check if there is a string
+			assertTrue(sumOfScores!=null);
+			// check if that string is not empty
+			assertTrue(!sumOfScores.isEmpty());
+			// check if that string is a number
+			assertTrue(sumOfScores.matches("[[\\d]*[\\.]*]*"));
+			
+			// 3) test if it is actually the sum of scores
+			currentSumOfScores = Double.parseDouble(sumOfScores);
+			double currentBreakdownScore = Double.parseDouble(breakdownScore);
+			double currentRating = Double.parseDouble(rating);
+			assertTrue(currentSumOfScores == (currentBreakdownScore+currentRating));
+			
+			// 4) test that every next number of sum of scores is smaller
+			assertTrue(currentSumOfScores <= previousSumOfScores);
+			previousSumOfScores = currentSumOfScores;
+		}//for
+	
+	}//test4
+	
 }
