@@ -150,7 +150,7 @@ public class Rentalcars {
 	// task 1 is to print a list of all the cars, 
 	// in ascending price order, 
 	// in the following format:
-	// 1. {Vehicle name} – {Price}
+	// 1. {Vehicle name} â€“ {Price}
 	private static String task1(JSONArray vehicleList) {
 		ArrayList<JSONObject> sortedArrayList = sortJSONArray(vehicleList, "price", "asc");
 		String[] keys = {"name", "price"};
@@ -159,7 +159,7 @@ public class Rentalcars {
 
 	
 	// task 2 is to map SSIP and to print results in following format
-	// 2.	{Vehicle name} – {SIPP} – {Car type} – {Car type/doors} – {Transmission} – {Fuel} – {Air con}
+	// 2.	{Vehicle name} â€“ {SIPP} â€“ {Car type} â€“ {Car type/doors} â€“ {Transmission} â€“ {Fuel} â€“ {Air con}
 	private static String task2(JSONArray vehicleList) {
 		// I create HasMaps with keys and values for each
 		// of the four letters of the SIPP to be used.
@@ -249,15 +249,15 @@ public class Rentalcars {
 
 
 	// task 3 is to print highest rated supplier in desc order in this format:
-	// 3.	{Vehicle name} – {Car type} – {Supplier} – {Rating}
+	// 3.	{Vehicle name} â€“ {Car type} â€“ {Supplier} â€“ {Rating}
 	private static String task3(JSONArray vehicleList) {
 		ArrayList<JSONObject> sortedArrayList = sortJSONArray(vehicleList, "rating", "desc");
-		String[] keys = {"name", "price", "supplier", "rating"};
+		String[] keys = {"name", "carType", "supplier", "rating"};
 		return formatOutput(sortedArrayList, 3, keys);
     }//task3()
 
 	// task 4 is to combine breakdown and rating scores and print in desc order
-	// 4.	{Vehicle name} – {Vehicle score} – {Supplier rating} – {Sum of scores}
+	// 4.	{Vehicle name} â€“ {Vehicle score} â€“ {Supplier rating} â€“ {Sum of scores}
 	private static String task4(JSONArray vehicleList) {
         // here I add the vehicle score and the supplier rating score 
 		// and add a new column to our existing table
